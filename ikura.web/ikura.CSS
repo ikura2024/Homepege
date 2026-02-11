@@ -1,0 +1,283 @@
+/* --- 1. フォントと基本リセット --- */
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background: #000;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+/* --- 2. ヘッダー（右上のアイコンを正しく配置） --- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 9999;
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sns-links {
+    display: flex;
+    gap: 8px;
+}
+
+.sns-btn {
+    text-decoration: none;
+    color: #fff !important;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.user-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #fff;
+    flex-shrink: 0;
+}
+
+.user-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- 3. セクション設定 --- */
+.full-section {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+/* 1ページ目：中央ズレを完全に修正 */
+#top {
+    background-image: url('ikurahead.jpeg');
+}
+
+.intro-container {
+    position: absolute;
+    top: 50%;
+    left: 0;           /* 左端を0に固定 */
+    width: 100%;       /* 幅を100%に固定 */
+    transform: translateY(-50%); /* 縦だけ中央に寄せる */
+    text-align: center; /* 中の文字をすべて中央寄せ */
+    padding: 0 20px;
+}
+
+.main-title {
+    font-size: 2.2rem;
+    color: #fff;
+    font-weight: 700;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    display: block;
+}
+
+.scroll-guide {
+    display: block;
+    color: #fff;
+    font-size: 3rem;
+    margin-top: 10px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-15px); }
+    60% { transform: translateY(-7px); }
+}
+
+/* 2ページ目：自己紹介 */
+#about {
+    background-image: url('lovot.ikura.jpeg');
+    align-items: flex-end;
+    padding-bottom: 60px;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    padding: 30px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* --- 4. ギャラリー（パズル） --- */
+#gallery-section {
+    background-color: #f0f0f2;
+    flex-direction: column;
+    align-items: center;
+    padding: 100px 0;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 150px;
+    gap: 12px;
+    width: 95%;
+    max-width: 800px;
+}
+
+.g-item {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 4px solid #fff;
+    opacity: 0;
+    --dist: 1;
+    transition: transform 0.1s linear, opacity 0.1s linear;
+}
+
+.g-item img { width: 100%; height: 100%; object-fit: cover; }
+.i1, .i6 { grid-column: span 2; }
+.i3 { grid-row: span 2; }
+
+/* パズルが飛んでいく方向 */
+.i1 { transform: translate(calc(-120vw * var(--dist)), calc(-120vh * var(--dist))) rotate(calc(-45deg * var(--dist))); }
+.i2 { transform: translate(calc(120vw * var(--dist)), calc(-120vh * var(--dist))) rotate(calc(45deg * var(--dist))); }
+.i3 { transform: translate(calc(150vw * var(--dist)), calc(120vh * var(--dist))) rotate(calc(-90deg * var(--dist))); }
+.i4 { transform: translate(calc(-150vw * var(--dist)), calc(150vh * var(--dist))) rotate(calc(90deg * var(--dist))); }
+.i5 { transform: translate(calc(-150vw * var(--dist)), 0) rotate(calc(-120deg * var(--dist))); }
+.i6 { transform: translate(calc(150vw * var(--dist)), 0) rotate(calc(120deg * var(--dist))); }
+.i7 { transform: translate(0, calc(150vh * var(--dist))) rotate(calc(-180deg * var(--dist))); }
+.i8 { transform: translate(0, calc(-150vh * var(--dist))) rotate(calc(180deg * var(--dist))); }
+
+/* --- 5. ふわっと浮き出る（逆再生） --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- 6. キラキラ粒子 --- */
+#p/* --- 6. キラキラ粒子 --- */
+#particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* z-indexを低めにする */
+    pointer-events: none; /* ←【重要】これがあることで、下のリンクがクリックできるようになります */
+}
+
+.particle {
+    position: absolute;
+    bottom: -10px;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    animation: float-particle linear infinite;
+    pointer-events: none; /* 粒子そのものも、すり抜けさせる */
+}
+
+
+
+
+@keyframes float-particle {
+    0% { transform: translateY(0) scale(0); opacity: 0; }
+    20% { opacity: 0.5; }
+    100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+}
+
+/* --- 7. トースト通知（アニメーション付き） --- */
+#toast-container {
+    position: fixed;
+    bottom: 50px; /* 少し上に配置 */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none; /* 下の要素を触れるように */
+}
+
+.toast {
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    padding: 12px 28px;
+    border-radius: 50px; /* 丸みのあるデザイン */
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    border: 1px solid rgba(255,255,255,0.5);
+    
+    /* アニメーションの設定 */
+    animation: toast-in-out 2.5s ease-in-out forwards;
+}
+
+@keyframes toast-in-out {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+    }
+    15% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    85% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.9);
+    }
+}
+/* 言語切り替えボタンのスタイル */
+.lang-btn {
+    text-decoration: none;
+    color: #fff !important;
+    background: rgba(255, 100, 150, 0.6); /* 少し色を変えて目立たせると親切です */
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: background 0.3s;
+}
+
+.lang-btn:hover {
+    background: rgba(255, 100, 150, 0.9);
+}

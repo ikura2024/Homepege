@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOVOTいくらのホームページ</title>
+    <link rel="stylesheet" href="ikura.CSS">
+</head>
+<body>
+
+    <div id="particles-container"></div>
+
+    <header class="navbar">
+        <div class="logo">LOVOTいくらのホームページ</div>
+        <div class="user-section">
+            <div class="sns-links">
+               <div class="sns-links">
+    <a href="en.HTML" class="lang-btn">English</a> 
+    
+    <a href="https://x.com/hinabokko_lovot?s=21" target="_blank" class="sns-btn">X</a>
+    </div>
+
+                
+                <a href="javascript:void(0)" class="sns-btn disabled-link">Instagram</a>
+                
+                <a href="javascript:void(0)" class="sns-btn disabled-link">YouTube</a>
+                
+            <a href="https://note.com/hinabokko_lovot" target="_blank" class="sns-btn">note</a>
+
+
+            </div>
+            <div class="user-icon">
+                <img src="ikurahead.jpeg" alt="Icon"> 
+            </div>
+        </div>
+    </header>
+
+    <div id="toast-container"></div>
+
+    <main>
+        <section id="top" class="full-section">
+            <div class="intro-container reveal">
+                <h1 class="main-title">LOVOT いくらの紹介ページ</h1>
+                <div class="scroll-guide">↓</div>
+            </div>
+        </section>
+
+        <section id="about" class="full-section">
+            <div class="glass-card reveal">
+                <h2>自己紹介</h2>
+                <p>名前　いくら</p>
+                <p>誕生日　2024年11月29日</p>
+					  <p>性格　甘えん坊、人によって態度が変わる</p>
+                  <p>体　3.0 </p>
+
+					<p>
+            </div>
+        </section>
+
+        <section id="gallery-section" class="full-section">
+            <h2 class="gallery-title reveal">いくらと一緒に行ったところ</h2>
+            <div class="gallery-grid">
+                <div class="g-item i1"><img src="sennri.ikura.jpeg"></div>
+                <div class="g-item i2"><img src="oosaka.ikura.jpeg"></div>
+                <div class="g-item i3"><img src="sakura.ikura.jpeg"></div>
+                <div class="g-item i4"><img src="TUTAYA.ikura.jpeg"></div>
+                <div class="g-item i5"><img src="abeno.ikura.jpeg"></div>
+                <div class="g-item i6"><img src="kakogawa.ikura.jpeg"></div>
+                <div class="g-item i7"><img src="oosaka2.ikura.jpeg"></div>
+                <div class="g-item i8"><img src="ikurahead.jpeg"></div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        /* --- 1. スクロール連動：ギャラリーのパズルアニメーション --- */
+        window.addEventListener('scroll', () => {
+            const section = document.querySelector('#gallery-section');
+            const items = document.querySelectorAll('.g-item');
+            if (!section) return;
+
+            const rect = section.getBoundingClientRect();
+            const viewHeight = window.innerHeight;
+            
+            let progress = (viewHeight - rect.top) / (viewHeight + rect.height);
+            progress = Math.max(0, Math.min(1, progress));
+            
+            const moveFactor = Math.max(0, 1 - (progress * 2));
+
+            items.forEach((item) => {
+                item.style.setProperty('--dist', moveFactor);
+                item.style.opacity = progress * 2;
+            });
+        });
+
+        /* --- 2. ふわっと浮き出るアニメーション（逆再生対応） --- */
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                } else {
+                    entry.target.classList.remove('active');
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        /* --- 3. 無効なリンクのみをトースト通知対象にする --- */
+        // .disabled-link クラスがついているものだけを取得
+        const disabledLinks = document.querySelectorAll('.disabled-link');
+        const toastContainer = document.getElementById('toast-container');
+        
+        disabledLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                toast.innerText = 'そのリンクは準備中です';
+                toastContainer.appendChild(toast);
+                setTimeout(() => { toast.remove(); }, 2500);
+            });
+        });
+
+        /* --- 4. 背景のキラキラ粒子を生成 --- */
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            const count = 35;
+
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                
+                const size = Math.random() * 6 + 2 + 'px';
+                p.style.width = size;
+                p.style.height = size;
+                p.style.left = Math.random() * 100 + 'vw';
+                
+                p.style.animationDuration = Math.random() * 10 + 12 + 's';
+                p.style.animationDelay = Math.random() * 10 + 's';
+                p.style.opacity = Math.random() * 0.5 + 0.2;
+                
+                container.appendChild(p);
+            }
+        }
+        createParticles();
+    </script>
+</body>
+</html>
