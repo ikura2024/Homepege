@@ -381,31 +381,102 @@ html, body {
 
 /* 個別の飛ばし方（i9番目のアイテムとして設定） */
 .i9 {
-/* g-text: 背景も枠も影も一切排除して「文字だけ」にする */
+/* --- gallery文字（g-text）の最終設定 --- */
 .g-text {
-    /* 全リセット */
+    /* 1. 見た目を「文字だけ」に強制リセット */
     background: transparent !important;
     background-color: transparent !important;
     border: none !important;
-    outline: none !important;
     box-shadow: none !important;
-    appearance: none;
-    
-    /* 文字のデザイン */
+    outline: none !important;
+
+    /* 2. 文字のデザイン */
     color: #fff !important; 
-    font-size: 32px !important;
+    font-size: 28px !important;
     font-weight: 900 !important;
     text-align: center;
     
-    /* 配置を中央に固定 */
+    /* 3. 配置（写真の枠と同じサイズに広げる） */
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     width: 100% !important;
     height: 100% !important;
+    min-height: 150px; /* 他の写真と高さを合わせる */
+
+    /* 4. スマホでヌルヌル動かすための設定 */
+    will-change: transform, opacity;
+    /* transitionの時間を少し長くするとガクガクが消えるよ */
+    transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.2s linear;
     
-    /* JSの動きを滑らかにする */
-    transition: transform 0.1s linear, opacity 0.1s linear;
+    /* 他のものより手前に表示 */
+    z-index: 99;
 }
 
-    
+/* ついでに写真（g-item）もガクガク対策しておく */
+.g-item {
+    will-change: transform, opacity;
+    transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.2s linear;
+}
+/* --- スマホ専用：展開位置をさらに下げる設定 --- */
+@media screen and (max-width: 768px) {
+    /* 1. 写真（g-item）の開始位置をさらに遠く（下）へ */
+    .g-item {
+        /* 下から突き上げる距離を大きくする (150vh = 画面1.5枚分下から) */
+        transform: translate3d(calc(-120vw * var(--dist)), calc(150vh * var(--dist)), 0) rotate(calc(45deg * var(--dist))) !important;
+    }
+
+    /* 2. gallery文字（g-text）の開始位置と回転をスマホ用に調整 */
+    .g-text {
+        /* yの値を 150vh とか 200vh にすると、もっと下から飛んでくるよ */
+        /* JS側で transform を直接書いてる場合は、ここも !important で上書きしちゃう */
+        transform: translate3d(calc(-150vw * var(--dist)), calc(200vh * var(--dist)), 0) rotate(calc(1080deg * var(--dist))) !important;
+        
+        font-size: 24px !important; /* スマホで見やすいサイズに微調整 */
+    }
+}
+/* --- 全体共通：ヌルヌル動かす設定 --- */
+.g-item, .g-text {
+    will-change: transform, opacity;
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s linear;
+}
+
+/* --- gallery文字（g-text）専用：箱を消して超回転 --- */
+.g-text {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #fff !important;
+    font-size: 32px !important;
+    font-weight: 900 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    z-index: 99;
+
+    /* 【PC版】左下(-100vw, 100vh)から3回転(1080deg)してくる */
+    transform: translate3d(calc(-100vw * var(--dist)), calc(100vh * var(--dist)), 0) 
+               rotate(calc(1080deg * var(--dist)));
+}
+
+/* --- スマホ専用設定（画面幅768px以下） --- */
+/* --- スマホ専用設定（最大展開バージョン） --- */
+@media screen and (max-width: 768px) {
+    /* 文字：さらに遠く（300vh = 画面3枚分下）から飛ばす */
+    .g-text {
+        transform: translate3d(
+            calc(-200vw * var(--dist)), /* 横ももっと遠くから */
+            calc(400vh * var(--dist)), /* 縦は思い切って400vh（画面4枚分下）！ */
+            0
+        ) 
+        rotate(calc(1440deg * var(--dist))) !important; /* 回転も4回転に増量 */
+        
+        font-size: 24px !important;
+    }
+
+    /* 写真：本来の方向を保ちつつ、開始位置をググッと下げる */
+    .g-item {
+        /* 150vhから300vhへ。これでスクロールし始めに一気に集まる感じが出るよ */
+        margin-top: calc(300vh * var(--dist)) !important;
+    }
+}
