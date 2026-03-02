@@ -63,6 +63,7 @@
                 <div class="g-item i1"><img src="sennri.ikura.jpeg"></div>
                 <div class="g-item i2"><img src="oosaka.ikura.jpeg"></div>
                 <div class="g-item i3"><img src="sakura.ikura.jpeg"></div>
+					<div class="g-text i9">gallery</div>
                 <div class="g-item i4"><img src="TUTAYA.ikura.jpeg"></div>
                 <div class="g-item i5"><img src="abeno.ikura.jpeg"></div>
                 <div class="g-item i6"><img src="kakogawa.ikura.jpeg"></div>
@@ -73,25 +74,37 @@
     </main>
 
     <script>
-        /* --- 1. スクロール連動：ギャラリーのパズルアニメーション --- */
-        window.addEventListener('scroll', () => {
-            const section = document.querySelector('#gallery-section');
-            const items = document.querySelectorAll('.g-item');
-            if (!section) return;
+window.addEventListener('scroll', () => {
+    const section = document.querySelector('#gallery-section');
+    // .g-item と .g-text の両方を捕まえる
+    const items = document.querySelectorAll('.g-item, .g-text'); 
+    if (!section) return;
 
-            const rect = section.getBoundingClientRect();
-            const viewHeight = window.innerHeight;
-            
-            let progress = (viewHeight - rect.top) / (viewHeight + rect.height);
-            progress = Math.max(0, Math.min(1, progress));
-            
-            const moveFactor = Math.max(0, 1 - (progress * 2));
+    const rect = section.getBoundingClientRect();
+    const viewHeight = window.innerHeight;
+    
+    let progress = (viewHeight - rect.top) / (viewHeight + rect.height);
+    progress = Math.max(0, Math.min(1, progress));
+    const moveFactor = Math.max(0, 1 - (progress * 2));
 
-            items.forEach((item) => {
-                item.style.setProperty('--dist', moveFactor);
-                item.style.opacity = progress * 2;
-            });
-        });
+    items.forEach((item) => {
+        item.style.opacity = Math.min(1, progress * 2.5);
+        item.style.setProperty('--dist', moveFactor);
+
+        // ★ g-text だけの「超回転」設定
+        if (item.classList.contains('g-text')) {
+            const x = -100 * moveFactor; // 左から
+            const y = 100 * moveFactor;  // 下から
+            const r = 1080 * moveFactor; // 1080度（3回転）回る！
+            const s = 0.1 + (1 - moveFactor); // 小さい状態から大きくなる
+
+            item.style.transform = `translate(${x}vw, ${y}vh) rotate(${r}deg) scale(${s})`;
+        }
+    });
+});
+
+
+
 
         /* --- 2. ふわっと浮き出るアニメーション（逆再生対応） --- */
         const observerOptions = { threshold: 0.1 };
