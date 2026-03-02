@@ -76,7 +76,6 @@
     <script>
 window.addEventListener('scroll', () => {
     const section = document.querySelector('#gallery-section');
-    // .g-item と .g-text の両方を捕まえる
     const items = document.querySelectorAll('.g-item, .g-text'); 
     if (!section) return;
 
@@ -89,19 +88,13 @@ window.addEventListener('scroll', () => {
 
     items.forEach((item) => {
         item.style.opacity = Math.min(1, progress * 2.5);
+        // JSはこれだけ！あとの動きはCSSの var(--dist) に任せる
         item.style.setProperty('--dist', moveFactor);
-
-        // ★ g-text だけの「超回転」設定
-        if (item.classList.contains('g-text')) {
-            const x = -100 * moveFactor; // 左から
-            const y = 100 * moveFactor;  // 下から
-            const r = 1080 * moveFactor; // 1080度（3回転）回る！
-            const s = 0.1 + (1 - moveFactor); // 小さい状態から大きくなる
-
-            item.style.transform = `translate(${x}vw, ${y}vh) rotate(${r}deg) scale(${s})`;
-        }
     });
 });
+
+
+
 
 
 
