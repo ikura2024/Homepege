@@ -1,5 +1,4 @@
-/* --- 1. フォントと基本リセット --- */
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap');
+
 
 * {
     box-sizing: border-box;
@@ -7,14 +6,17 @@
     padding: 0;
 }
 
+/* --- ここを探して！ --- */
 html, body {
     width: 100%;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
     background: #000;
-    font-family: 'M PLUS Rounded 1c', sans-serif;
+    /* ↓ ここをこれに書き換える！ */
+    font-family: "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "HG丸ｺﾞｼｯｸM-PRO", sans-serif;
 }
+
 
 /* --- 2. ヘッダー（右上のアイコンを正しく配置） --- */
 .navbar {
@@ -97,13 +99,17 @@ html, body {
     padding: 0 20px;
 }
 
+/* 100行目あたりをこれに書き換え */
 .main-title {
     font-size: 2.2rem;
     color: #fff;
     font-weight: 700;
-    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    /* 影を復活させるよ */
+    text-shadow: none; 
     display: block;
 }
+
+
 
 .scroll-guide {
     display: block;
@@ -334,3 +340,72 @@ html, body {
         display: none; /* 必要に応じて非表示にするか、数を減らすスクリプト調整 */
     }
 }
+/* --- さっきのコードの最後に追加 --- */
+/* i9（新しく追加した文字ボックス）のデザイン */
+.i9 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;       /* 写真のフチと同じ白背景 */
+    color: #333;           /* 文字の色 */
+    font-size: 18px;       /* 文字の大きさ（お好みで変えてね） */
+    font-weight: bold;
+    border-radius: 12px;
+    border: 4px solid #fff;
+    
+    /* 他の写真と同じ動きをさせる設定 */
+    opacity: 0;
+    --dist: 1;
+    transition: transform 0.1s linear, opacity 0.1s linear;
+    
+    /* 飛んでくる方向（左下から斜めにくる設定にしてみたよ） */
+    transform: translate(calc(-100vw * var(--dist)), calc(100vh * var(--dist))) rotate(calc(45deg * var(--dist)));
+}
+/* 文字ボックス共通のデザイン（g-text） */
+.g-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;       /* 写真のフチと同じ白背景 */
+    color: #333;           /* 文字の色 */
+    font-size: 18px;       /* 文字の大きさ */
+    font-weight: bold;
+    border-radius: 12px;
+    border: 4px solid #fff;
+    
+    /* 他のアイテムと動きを合わせるための基本設定 */
+    opacity: 0;
+    --dist: 1;
+    transition: transform 0.1s linear, opacity 0.1s linear;
+}
+
+/* 個別の飛ばし方（i9番目のアイテムとして設定） */
+.i9 {
+/* g-text: 背景も枠も影も一切排除して「文字だけ」にする */
+.g-text {
+    /* 全リセット */
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    appearance: none;
+    
+    /* 文字のデザイン */
+    color: #fff !important; 
+    font-size: 32px !important;
+    font-weight: 900 !important;
+    text-align: center;
+    
+    /* 配置を中央に固定 */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    
+    /* JSの動きを滑らかにする */
+    transition: transform 0.1s linear, opacity 0.1s linear;
+}
+
+    
