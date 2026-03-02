@@ -281,3 +281,56 @@ html, body {
 .lang-btn:hover {
     background: rgba(255, 100, 150, 0.9);
 }
+/* --- 8. スマホ用レスポンシブ調整 --- */
+@media screen and (max-width: 768px) {
+    /* ヘッダーの調整 */
+    .navbar {
+        height: auto;
+        padding: 10px;
+        flex-direction: column; /* 縦に並べる */
+        gap: 10px;
+    }
+
+    .logo {
+        font-size: 16px;
+    }
+
+    .sns-links {
+        flex-wrap: wrap; /* ボタンが入り切らない時に折り返す */
+        justify-content: center;
+    }
+
+    .sns-btn, .lang-btn {
+        padding: 6px 10px;
+        font-size: 10px;
+    }
+
+    /* メインタイトルのサイズ調整 */
+    .main-title {
+        font-size: 1.5rem;
+    }
+
+    /* ギャラリーを4列から2列に変更 */
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 120px;
+        gap: 8px;
+    }
+
+    /* 2列にした際のスパン（広がり）を調整 */
+    .i1, .i6 {
+        grid-column: span 2;
+    }
+    
+    /* 自己紹介カードの幅 */
+    .glass-card {
+        width: 85%;
+        padding: 20px;
+        font-size: 14px;
+    }
+
+    /* 粒子を少し減らす（スマホの負荷軽減） */
+    .particle {
+        display: none; /* 必要に応じて非表示にするか、数を減らすスクリプト調整 */
+    }
+}
