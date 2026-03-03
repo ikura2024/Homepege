@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>いくらの誕生日カウントダウン</title>
+    <link rel="stylesheet" href="ikura.css">
+    <style>
+        /* Birthday.html 専用の追加スタイル */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #808080;
+            color: #fff;
+        }
+
+        .back-home {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: #000;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        #bday-card {
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            padding: 40px 20px;
+            /* glass-cardのスタイルを継承しつつ調整 */
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .pet-name { font-size: 2rem; margin-bottom: 20px; color: #ffb7c5; }
+        .age-label { font-size: 1rem; color: #ccc; margin-bottom: 5px; }
+        .age-number { font-size: 1.8rem; font-weight: bold; margin-bottom: 30px; }
+        
+        .cd-label { font-size: 1rem; color: #ccc; margin-bottom: 10px; }
+        .countdown-display {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #ffeb3b;
+            line-height: 1.6;
+        }
+        .countdown-display span { font-size: 1.6rem; }
+        .small-sec { font-size: 1.1rem; opacity: 0.8; }
+
+        /* 誕生日当日の特別演出 */
+        .is-birthday {
+            background: rgba(255, 105, 180, 0.3) !important;
+            border: 2px solid #ff69b4 !important;
+            animation: bday-pulse 2s infinite;
+        }
+        @keyframes bday-pulse {
+            0% { transform: scale(1); box-shadow: 0 0 20px rgba(255,105,180,0.4); }
+            50% { transform: scale(1.02); box-shadow: 0 0 40px rgba(255,105,180,0.7); }
+            100% { transform: scale(1); box-shadow: 0 0 20px rgba(255,105,180,0.4); }
+        }
+/* 背景を動くオーロラ風に */
+body {
+    background: linear-gradient(125deg, #000, #1a0033, #000, #33001a);
+    background-size: 400% 400%;
+    animation: aurora 15s ease infinite;
+}
+
+@keyframes aurora {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 文字をネオンっぽく光らせる */
+.pet-name, .bday-title {
+    color: #fff !important;
+    text-shadow: 0 0 10px #ff00de, 0 0 20px #ff00de, 0 0 40px #ff00de;
+    animation: neon-glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neon-glow {
+    from { text-shadow: 0 0 10px #ff00de, 0 0 20px #ff00de; }
+    to { text-shadow: 0 0 20px #ff00de, 0 0 40px #ff00de, 0 0 60px #ff00de; }
+}
+
+/* カードをよりゴージャスに */
+#bday-card {
+    border: 3px solid transparent;
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                      linear-gradient(135deg, #ff00de, #00d4ff);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    box-shadow: 0 0 50px rgba(255, 0, 222, 0.4);
+}
+    </style>
+</head>
+<body>
+<canvas id="fireworks-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
+    <div id="particles-container"></div>
+
+    <a href="index.html" class="back-home">← ホームへ戻る</a>
+
+    <div id="bday-card" class="reveal active">
+        <div id="bday-normal">
+            <h1 class="pet-name">🐾 いくらちゃん</h1>
+            
+            <p class="age-label">現在の年齢</p>
+            <div class="age-number" id="current-age">計算中...</div>
+            
+            <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.2); margin: 20px 0;">
+            
+            <p class="cd-label">🎂 次の誕生日まで</p>
+            <div class="countdown-display">
+                <span id="cd-y">0</span>年 
+                <span id="cd-mo">0</span>ヶ月 
+                <span id="cd-d">0</span>日<br>
+                <span id="cd-h">0</span>時間 
+                <span id="cd-mi">0</span>分 
+                <span class="small-sec"><span id="cd-s">0</span>秒</span>
+            </div>
+        </div>
+
+        <div id="bday-special" style="display: none;">
+            <h1 style="font-size: 2.5rem;">🎉🎉🎉</h1>
+            <h2 style="font-size: 2rem; color: #fff; margin: 20px 0;">
+                Happy Birthday<br>いくらちゃん！
+            </h2>
+            <p style="font-size: 1.8rem; font-weight: bold;">今日で <span id="today-age"></span> 歳！</p>
+            <p style="font-size: 3rem; margin-top: 20px;">🎂✨</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- 設定 ---
+            const bYear = 2024;
+            const bMonth = 11; 
+            const bDay = 29;
+
+            function update() {
+                const now = new Date();
+                const card = document.getElementById('bday-card');
+                
+                // 当日判定
+                const isBday = (now.getMonth() + 1 === bMonth && now.getDate() === bDay);
+
+                if (isBday) {
+                    document.getElementById('bday-normal').style.display = 'none';
+                    document.getElementById('bday-special').style.display = 'block';
+                    document.getElementById('today-age').innerText = now.getFullYear() - bYear;
+                    card.classList.add('is-birthday');
+                    return;
+                }
+
+                // 年齢計算
+                let ageY = now.getFullYear() - bYear;
+                let ageMo = (now.getMonth() + 1) - bMonth;
+                let ageD = now.getDate() - bDay;
+
+                if (ageD < 0) {
+                    ageMo--;
+                    const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                    ageD += lastMonth.getDate();
+                }
+                if (ageMo < 0) {
+                    ageY--;
+                    ageMo += 12;
+                }
+                document.getElementById('current-age').innerText = `${ageY}歳 ${ageMo}ヶ月 ${ageD}日`;
+
+                // カウントダウン
+                let nextY = now.getFullYear();
+                if ((now.getMonth() + 1) > bMonth || ((now.getMonth() + 1) === bMonth && now.getDate() > bDay)) {
+                    nextY++;
+                }
+                const nextBday = new Date(nextY, bMonth - 1, bDay, 0, 0, 0);
+                
+                // 正確な差分計算
+                let diff = nextBday - now;
+                let s = Math.floor(diff / 1000) % 60;
+                let m = Math.floor(diff / (1000 * 60)) % 60;
+                let h = Math.floor(diff / (1000 * 60 * 60)) % 24;
+                
+                // 日・月・年の差分（カレンダーベース）
+                let d = bDay - now.getDate();
+                let mo = (bMonth - 1) - now.getMonth();
+                let y = nextY - now.getFullYear();
+
+                if (h < 0 || (h === 0 && m < 0) || (h === 0 && m === 0 && s < 0)) {
+                    // 時間単位の繰り下がりは簡易化のためDateオブジェクトの差を利用
+                }
+
+                // 秒がマイナスにならないための補正ロジック（仕様書準拠）
+                let curS = now.getSeconds();
+                let curM = now.getMinutes();
+                let curH = now.getHours();
+
+                let diffS = 0 - curS;
+                let bM = 0; if(diffS < 0) { diffS += 60; bM = 1; }
+                let diffM = 0 - curM - bM;
+                let bH = 0; if(diffM < 0) { diffM += 60; bH = 1; }
+                let diffH = 0 - curH - bH;
+                let bD = 0; if(diffH < 0) { diffH += 24; bD = 1; }
+                
+                let diffD = bDay - now.getDate() - bD;
+                let bMo = 0;
+                if(diffD < 0) {
+                    const prev = new Date(nextY, bMonth - 1, 0);
+                    diffD += prev.getDate();
+                    bMo = 1;
+                }
+                let diffMo = (bMonth) - (now.getMonth() + 1) - bMo;
+                if(diffMo < 0) { diffMo += 12; }
+
+                document.getElementById('cd-y').innerText = (nextY - now.getFullYear() - ( (now.getMonth()+1 > bMonth || (now.getMonth()+1 === bMonth && now.getDate() >= bDay)) ? 0 : 0 )); 
+                document.getElementById('cd-mo').innerText = diffMo;
+                document.getElementById('cd-d').innerText = diffD;
+                document.getElementById('cd-h').innerText = diffH;
+                document.getElementById('cd-mi').innerText = diffM;
+                document.getElementById('cd-s').innerText = diffS;
+            }
+
+            setInterval(update, 1000);
+            update();
+
+            // キらキラ生成
+            const container = document.getElementById('particles-container');
+            for (let i = 0; i < 900; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                p.style.animationDelay = (Math.random() * 5) + 's';
+                container.appendChild(p);
+            }
+        });
+/* --- 🎇 本格花火システム --- */
+const canvas = document.getElementById('fireworks-canvas');
+const ctx = canvas.getContext('2d');
+
+let fwParticles = [];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+class FireworkParticle {
+    constructor(x, y, color) {
+        this.x = x; this.y = y; this.color = color;
+        this.angle = Math.random() * Math.PI * 2;
+        this.velocity = Math.random() * 6 + 2;
+        this.friction = 0.95;
+        this.gravity = 0.1;
+        this.opacity = 1;
+    }
+    update() {
+        this.velocity *= this.friction;
+        this.x += Math.cos(this.angle) * this.velocity;
+        this.y += Math.sin(this.angle) * this.velocity + this.gravity;
+        this.opacity -= 0.015;
+    }
+    draw() {
+        ctx.globalAlpha = this.opacity;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+function createFirework() {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height * 0.5;
+    const color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+    for (let i = 0; i < 50; i++) {
+        fwParticles.push(new FireworkParticle(x, y, color));
+    }
+}
+
+function animateFireworks() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    fwParticles.forEach((p, i) => {
+        p.update();
+        p.draw();
+        if (p.opacity <= 0) fwParticles.splice(i, 1);
+    });
+    requestAnimationFrame(animateFireworks);
+}
+
+// 誕生日の時だけ花火を連発、普段はたまに打ち上げる
+setInterval(() => {
+    // 誕生日のフラグがある場合や、10%の確率で打ち上げ
+    createFirework();
+}, 800); 
+
+animateFireworks();
+    </script>
+</body>
+</html>
