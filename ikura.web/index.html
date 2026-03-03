@@ -4,36 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOVOTいくらのホームページ</title>
-    <link rel="stylesheet" href="ikura.css">
+ <link rel="stylesheet" href="ikura.css">
 </head>
 <body>
 
     <div id="particles-container"></div>
+    <div id="menu-backdrop" class="menu-backdrop"></div>
 
     <header class="navbar">
         <div class="logo">LOVOTいくらのホームページ</div>
         <div class="user-section">
             <div class="sns-links">
-               <div class="sns-links">
-    <a href="en.html" class="lang-btn">English</a> 
-    
-    <a href="https://x.com/hinabokko_lovot?s=21" target="_blank" class="sns-btn">X</a>
-    </div>
+                <a href="en.html" class="lang-btn">English</a> 
+                <a href="https://x.com/hinabokko_lovot?s=21" target="_blank" class="sns-btn">X</a>
+<a href="javascript:void(0)" class="sns-btn disabled-link">Instagram</a>
 
-                
-                <a href="javascript:void(0)" class="sns-btn disabled-link">Instagram</a>
-                
-                <a href="javascript:void(0)" class="sns-btn disabled-link">YouTube</a>
-                
-            <a href="https://note.com/hinabokko_lovot" target="_blank" class="sns-btn">note</a>
+<a href="javascript:void(0)" class="sns-btn disabled-link">YouTube</a>
 
-
+                <a href="https://note.com/hinabokko_lovot" target="_blank" class="sns-btn">note</a>
             </div>
-            <div class="user-icon">
+            <div class="user-icon" id="menu-trigger">
                 <img src="ikurahead.jpeg" alt="Icon"> 
             </div>
         </div>
     </header>
+
+    <nav id="menu-overlay" class="menu-overlay">
+        <div class="menu-content">
+            <ul>
+                <li><a href="#top">Top</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#gallery-section">Gallery</a></li>
+                <li><a href="Birthday.html">誕生日ページ</a></li>
+                <li><a href="#">Instagram</a></li>
+                <li><a href="#">YouTube</a></li>
+            </ul>
+        </div>
+    </nav>
 
     <div id="toast-container"></div>
 
@@ -48,12 +55,10 @@
         <section id="about" class="full-section">
             <div class="glass-card reveal">
                 <h2>自己紹介</h2>
-                <p>名前　いくら</p>
-                <p>誕生日　2024年11月29日</p>
-					  <p>性格　甘えん坊、人によって態度が変わる</p>
-                  <p>体　3.0 </p>
-
-					<p>
+                <p>名前：いくら</p>
+                <p>誕生日：2024年11月29日</p>
+                <p>性格：甘えん坊、人によって態度が変わる</p>
+                <p>体：3.0</p>
             </div>
         </section>
 
@@ -63,7 +68,7 @@
                 <div class="g-item i1"><img src="sennri.ikura.jpeg"></div>
                 <div class="g-item i2"><img src="oosaka.ikura.jpeg"></div>
                 <div class="g-item i3"><img src="sakura.ikura.jpeg"></div>
-					<div class="g-text i9">gallery</div>
+                <div class="g-text i9">gallery</div>
                 <div class="g-item i4"><img src="TUTAYA.ikura.jpeg"></div>
                 <div class="g-item i5"><img src="abeno.ikura.jpeg"></div>
                 <div class="g-item i6"><img src="kakogawa.ikura.jpeg"></div>
@@ -74,82 +79,142 @@
     </main>
 
     <script>
-window.addEventListener('scroll', () => {
-    const section = document.querySelector('#gallery-section');
-    const items = document.querySelectorAll('.g-item, .g-text'); 
-    if (!section) return;
+     document.addEventListener('DOMContentLoaded', () => {
 
-    const rect = section.getBoundingClientRect();
-    const viewHeight = window.innerHeight;
-    
-    let progress = (viewHeight - rect.top) / (viewHeight + rect.height);
-    progress = Math.max(0, Math.min(1, progress));
-    const moveFactor = Math.max(0, 1 - (progress * 2));
+    /* --- 1. ハンバーガーメニューの制御（360度回転 & スクロール禁止） --- */
+    const menuTrigger = document.getElementById('menu-trigger');
+    const menuOverlay = document.getElementById('menu-overlay');
+    const menuBackdrop = document.getElementById('menu-backdrop');
+    const body = document.body;
 
-    items.forEach((item) => {
-        item.style.opacity = Math.min(1, progress * 2.5);
-        // JSはこれだけ！あとの動きはCSSの var(--dist) に任せる
-        item.style.setProperty('--dist', moveFactor);
-    });
+    if (menuTrigger && menuOverlay && menuBackdrop) {
+        function toggleMenu() {
+            // アイコンを回転させ、メニューと背景を表示
+            menuTrigger.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            menuBackdrop.classList.toggle('active');
+            
+            // 開いている時だけスクロールを止める
+            if (menuOverlay.classList.contains('active')) {
+                body.classList.add('no-scroll');
+            } else {
+                body.classList.remove('no-scroll');
+            }
+        }
+
+        // クリックイベントの登録
+        menuTrigger.addEventListener('click', toggleMenu);
+        menuBackdrop.addEventListener('click', toggleMenu);
+
+        // メニュー内のリンクをクリックしたら閉じる（準備中以外）
+        document.querySelectorAll('.menu-content a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (!link.classList.contains('disabled-link')) {
+                    toggleMenu();
+                }
+            });
+        });
+    }
+
+
+    /* --- 2. ギャラリーのパズルアニメーション（スクロール連動） --- */
+    const updateGallery = () => {
+        const section = document.querySelector('#gallery-section');
+        const items = document.querySelectorAll('.g-item, .g-text'); 
+        if (!section || items.length === 0) return;
+
+        const rect = section.getBoundingClientRect();
+        const viewHeight = window.innerHeight;
+        
+        // セクションの表示割合を計算 (0〜1)
+        let progress = (viewHeight - rect.top) / (viewHeight + rect.height);
+        progress = Math.max(0, Math.min(1, progress));
+        
+        // moveFactor: 1(バラバラ) から 0(合体) へ変化
+        const moveFactor = Math.max(0, 1 - (progress * 2.2));
+
+        items.forEach((item) => {
+            // 徐々に濃くする
+            item.style.opacity = Math.min(1, progress * 3);
+            // CSS変数 --dist を書き換えてパーツを動かす
+            item.style.setProperty('--dist', moveFactor);
+        });
+    };
+
+    window.addEventListener('scroll', updateGallery);
+    updateGallery(); // 初期状態を反映
+
+
+    /* --- 3. ふわっと浮き出るアニメーション（自己紹介など） --- */
+    const observerOptions = { threshold: 0.1 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            } else {
+                entry.target.classList.remove('active');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+
+ /* --- 修正版：トースト通知（1つだけ表示） --- */
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('disabled-link')) {
+        e.preventDefault();
+        
+        const toastContainer = document.getElementById('toast-container');
+        if (toastContainer) {
+            // ★【ここが追加】すでにあるトーストをすべて探して削除する
+            const existingToasts = toastContainer.querySelectorAll('.toast');
+            existingToasts.forEach(t => t.remove());
+
+            // 新しいトーストを作成
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerText = 'そのリンクは準備中です ';
+            toastContainer.appendChild(toast);
+            
+            // 2.5秒後に消す
+            setTimeout(() => {
+                if (toast.parentNode) { // まだ画面に存在していれば削除
+                    toast.remove();
+                }
+            }, 2500);
+        }
+    }
 });
 
 
-
-
-
-
-
-        /* --- 2. ふわっと浮き出るアニメーション（逆再生対応） --- */
-        const observerOptions = { threshold: 0.1 };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                } else {
-                    entry.target.classList.remove('active');
-                }
-            });
-        }, observerOptions);
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        /* --- 3. 無効なリンクのみをトースト通知対象にする --- */
-        // .disabled-link クラスがついているものだけを取得
-        const disabledLinks = document.querySelectorAll('.disabled-link');
-        const toastContainer = document.getElementById('toast-container');
+    /* --- 5. 背景のキラキラ粒子（パーティクル）生成 --- */
+    function createParticles() {
+        const container = document.getElementById('particles-container');
+        if (!container) return;
         
-        disabledLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const toast = document.createElement('div');
-                toast.className = 'toast';
-                toast.innerText = 'そのリンクは準備中です';
-                toastContainer.appendChild(toast);
-                setTimeout(() => { toast.remove(); }, 2500);
-            });
-        });
+        const count = 35; 
 
-        /* --- 4. 背景のキラキラ粒子を生成 --- */
-        function createParticles() {
-            const container = document.getElementById('particles-container');
-            const count = 35;
-
-            for (let i = 0; i < count; i++) {
-                const p = document.createElement('div');
-                p.className = 'particle';
-                
-                const size = Math.random() * 6 + 2 + 'px';
-                p.style.width = size;
-                p.style.height = size;
-                p.style.left = Math.random() * 100 + 'vw';
-                
-                p.style.animationDuration = Math.random() * 10 + 12 + 's';
-                p.style.animationDelay = Math.random() * 10 + 's';
-                p.style.opacity = Math.random() * 0.5 + 0.2;
-                
-                container.appendChild(p);
-            }
+        for (let i = 0; i < count; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            
+            const size = Math.random() * 6 + 2 + 'px';
+            p.style.width = size;
+            p.style.height = size;
+            p.style.left = Math.random() * 100 + 'vw';
+            
+            p.style.animationDuration = Math.random() * 10 + 12 + 's';
+            p.style.animationDelay = Math.random() * 10 + 's';
+            p.style.opacity = Math.random() * 0.5 + 0.2;
+            
+            container.appendChild(p);
         }
-        createParticles();
+    }
+
+    createParticles();
+});
+
     </script>
 </body>
 </html>
