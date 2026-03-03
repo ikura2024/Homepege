@@ -1,482 +1,500 @@
+/* --- 全体設定 --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background: #000;
+            font-family: "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "HG丸ｺﾞｼｯｸM-PRO", sans-serif;
+        }
+
+        /* メニュー表示中のスクロール禁止 */
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        /* --- ヘッダー --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 9999;
+        }
+
+        .logo {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sns-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .sns-btn, .lang-btn {
+            text-decoration: none;
+            color: #fff !important;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: background 0.3s;
+        }
+
+        .lang-btn {
+            background: rgba(255, 100, 150, 0.6);
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 100, 150, 0.9);
+        }
+
+        /* --- アイコンボタン（360度回転） --- */
+        .user-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #fff;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10000;
+        }
+
+        .user-icon.active {
+            transform: rotate(360deg);
+        }
+
+        .user-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- ハンバーガーメニュー本体 --- */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 9998;
+            transition: right 0.4s ease;
+            padding: 100px 30px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-overlay.active {
+            right: 0;
+        }
+
+        .menu-content ul {
+            list-style: none;
+        }
+
+        .menu-content ul li {
+            margin-bottom: 25px;
+        }
+
+        .menu-content ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            display: block;
+            transition: color 0.3s;
+        }
+
+        /* メニュー背景（薄黒） */
+        .menu-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9997;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+        }
+
+        .menu-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* --- セクション設定 --- */
+        .full-section {
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+
+        #top { background-image: url('ikurahead.jpeg'); }
+
+        .intro-container {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            transform: translateY(-50%);
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .main-title {
+            font-size: 2.2rem;
+            color: #fff;
+            font-weight: 700;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .scroll-guide {
+            color: #fff;
+            font-size: 3rem;
+            margin-top: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-7px); }
+        }
+
+        #about {
+            background-image: url('lovot.ikura.jpeg');
+            align-items: flex-end;
+            padding-bottom: 60px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            padding: 30px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* --- ギャラリー（パズル） --- */
+        #gallery-section {
+            background-color: #f0f0f2;
+            flex-direction: column;
+            align-items: center;
+            padding: 100px 0;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 150px;
+            gap: 12px;
+            width: 95%;
+            max-width: 800px;
+        }
+
+        .g-item, .g-text {
+            border-radius: 12px;
+            overflow: hidden;
+            opacity: 0;
+            --dist: 1;
+            will-change: transform, opacity;
+            transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s linear;
+        }
+
+        .g-item { border: 4px solid #fff; }
+        .g-item img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .i1, .i6 { grid-column: span 2; }
+        .i3 { grid-row: span 2; }
+
+        /* パズルの飛んでいく方向（PC） */
+        .i1 { transform: translate(calc(-120vw * var(--dist)), calc(-120vh * var(--dist))) rotate(calc(-45deg * var(--dist))); }
+        .i2 { transform: translate(calc(120vw * var(--dist)), calc(-120vh * var(--dist))) rotate(calc(45deg * var(--dist))); }
+        .i3 { transform: translate(calc(150vw * var(--dist)), calc(120vh * var(--dist))) rotate(calc(-90deg * var(--dist))); }
+        .i4 { transform: translate(calc(-150vw * var(--dist)), calc(150vh * var(--dist))) rotate(calc(90deg * var(--dist))); }
+        .i5 { transform: translate(calc(-150vw * var(--dist)), 0) rotate(calc(-120deg * var(--dist))); }
+        .i6 { transform: translate(calc(150vw * var(--dist)), 0) rotate(calc(120deg * var(--dist))); }
+        .i7 { transform: translate(0, calc(150vh * var(--dist))) rotate(calc(-180deg * var(--dist))); }
+        .i8 { transform: translate(0, calc(-150vh * var(--dist))) rotate(calc(180deg * var(--dist))); }
+
+        /* gallery文字専用設定 */
+        .g-text {
+            background: transparent !important;
+            border: none !important;
+            color: #fff !important;
+            font-size: 32px !important;
+            font-weight: 900 !important;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            z-index: 99;
+            transform: translate3d(calc(-100vw * var(--dist)), calc(100vh * var(--dist)), 0) rotate(calc(1080deg * var(--dist)));
+        }
+
+        /* --- 粒子 --- */
+        #particles-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            bottom: -10px;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            animation: float-particle linear infinite;
+        }
+
+        @keyframes float-particle {
+            0% { transform: translateY(0) scale(0); opacity: 0; }
+            20% { opacity: 0.5; }
+            100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+        }
+
+        /* --- レスポンシブ --- */
+        @media screen and (max-width: 768px) {
+            .navbar { height: auto; padding: 10px; flex-direction: column; gap: 10px; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 120px; }
+            .i1, .i6 { grid-column: span 2; }
+            
+            .g-text {
+                transform: translate3d(calc(-200vw * var(--dist)), calc(400vh * var(--dist)), 0) rotate(calc(1440deg * var(--dist))) !important;
+                font-size: 24px !important;
+            }
+            .g-item { margin-top: calc(300vh * var(--dist)) !important; }
+        }
+
+        /* トースト通知 */
+        #toast-container {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10001;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            animation: toast-in-out 2.5s ease-in-out forwards;
+        }
+
+        @keyframes toast-in-out {
+            0% { opacity: 0; transform: translateY(30px) scale(0.9); }
+            15% { opacity: 1; transform: translateY(0) scale(1); }
+            85% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-20px) scale(0.9); }
+        }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-/* --- ここを探して！ --- */
-html, body {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    background: #000;
-    /* ↓ ここをこれに書き換える！ */
-    font-family: "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro", "HG丸ｺﾞｼｯｸM-PRO", sans-serif;
-}
-
-
-/* --- 2. ヘッダー（右上のアイコンを正しく配置） --- */
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 70px;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    z-index: 9999;
-}
-
-.user-section {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.sns-links {
-    display: flex;
-    gap: 8px;
-}
-
-.sns-btn {
-    text-decoration: none;
-    color: #fff !important;
-    background: rgba(255, 255, 255, 0.2);
-    padding: 8px 14px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.user-icon {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid #fff;
-    flex-shrink: 0;
-}
-
-.user-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* --- 3. セクション設定 --- */
-.full-section {
-    width: 100%;
-    min-height: 100vh;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-    background-size: cover;
-    background-position: center;
-}
-
-/* 1ページ目：中央ズレを完全に修正 */
-#top {
-    background-image: url('ikurahead.jpeg');
-}
-
-.intro-container {
-    position: absolute;
-    top: 50%;
-    left: 0;           /* 左端を0に固定 */
-    width: 100%;       /* 幅を100%に固定 */
-    transform: translateY(-50%); /* 縦だけ中央に寄せる */
-    text-align: center; /* 中の文字をすべて中央寄せ */
-    padding: 0 20px;
-}
-
-/* 100行目あたりをこれに書き換え */
-.main-title {
-    font-size: 2.2rem;
-    color: #fff;
-    font-weight: 700;
-    /* 影を復活させるよ */
-    text-shadow: none; 
-    display: block;
-}
-
-
-
-.scroll-guide {
-    display: block;
-    color: #fff;
-    font-size: 3rem;
-    margin-top: 10px;
-    animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-    40% { transform: translateY(-15px); }
-    60% { transform: translateY(-7px); }
-}
-
-/* 2ページ目：自己紹介 */
-#about {
-    background-image: url('lovot.ikura.jpeg');
-    align-items: flex-end;
-    padding-bottom: 60px;
-}
-
-.glass-card {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(15px);
-    padding: 30px;
-    border-radius: 25px;
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.3);
-}
-
-/* --- 4. ギャラリー（パズル） --- */
-#gallery-section {
-    background-color: #f0f0f2;
-    flex-direction: column;
-    align-items: center;
-    padding: 100px 0;
-}
-
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 150px;
-    gap: 12px;
-    width: 95%;
-    max-width: 800px;
-}
-
-.g-item {
-    border-radius: 12px;
-    overflow: hidden;
-    border: 4px solid #fff;
-    opacity: 0;
-    --dist: 1;
-    transition: transform 0.1s linear, opacity 0.1s linear;
-}
-
-.g-item img { width: 100%; height: 100%; object-fit: cover; }
-.i1, .i6 { grid-column: span 2; }
-.i3 { grid-row: span 2; }
-
-/* パズルが飛んでいく方向 */
-.i1 { transform: translate(calc(-120vw * var(--dist)), calc(-120vh * var(--dist))) rotate(calc(-45deg * var(--dist))); }
-.i2 { transform: translate(calc(120vw * var(--dist)), calc(-120vh * var(--dist))) rotate(calc(45deg * var(--dist))); }
-.i3 { transform: translate(calc(150vw * var(--dist)), calc(120vh * var(--dist))) rotate(calc(-90deg * var(--dist))); }
-.i4 { transform: translate(calc(-150vw * var(--dist)), calc(150vh * var(--dist))) rotate(calc(90deg * var(--dist))); }
-.i5 { transform: translate(calc(-150vw * var(--dist)), 0) rotate(calc(-120deg * var(--dist))); }
-.i6 { transform: translate(calc(150vw * var(--dist)), 0) rotate(calc(120deg * var(--dist))); }
-.i7 { transform: translate(0, calc(150vh * var(--dist))) rotate(calc(-180deg * var(--dist))); }
-.i8 { transform: translate(0, calc(-150vh * var(--dist))) rotate(calc(180deg * var(--dist))); }
-
-/* --- 5. ふわっと浮き出る（逆再生） --- */
-.reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* --- 6. キラキラ粒子 --- */
-#p/* --- 6. キラキラ粒子 --- */
-#particles-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1; /* z-indexを低めにする */
-    pointer-events: none; /* ←【重要】これがあることで、下のリンクがクリックできるようになります */
-}
-
-.particle {
-    position: absolute;
-    bottom: -10px;
-    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
-    border-radius: 50%;
-    animation: float-particle linear infinite;
-    pointer-events: none; /* 粒子そのものも、すり抜けさせる */
-}
 
 
 
 
-@keyframes float-particle {
-    0% { transform: translateY(0) scale(0); opacity: 0; }
-    20% { opacity: 0.5; }
-    100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
-}
 
-/* --- 7. トースト通知（アニメーション付き） --- */
-#toast-container {
-    position: fixed;
-    bottom: 50px; /* 少し上に配置 */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10000;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    pointer-events: none; /* 下の要素を触れるように */
-}
 
-.toast {
-    background: rgba(255, 255, 255, 0.95);
-    color: #333;
-    padding: 12px 28px;
-    border-radius: 50px; /* 丸みのあるデザイン */
-    font-size: 14px;
-    font-weight: 700;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    border: 1px solid rgba(255,255,255,0.5);
+
+
+/* --- メニュー全画面・半透明（すりガラス風）への上書き --- */
+
+/* 1. メニュー本体を全画面にして中央寄せにする */
+.menu-overlay {
+    width: 100% !important;   /* 幅を全画面に */
+    height: 100% !important;  /* 高さを全画面に */
+    right: -100%;             /* 初期位置（右側に隠す） */
+    top: 0 !important;        /* 上端から表示 */
     
-    /* アニメーションの設定 */
-    animation: toast-in-out 2.5s ease-in-out forwards;
-}
-
-@keyframes toast-in-out {
-    0% {
-        opacity: 0;
-        transform: translateY(30px) scale(0.9);
-    }
-    15% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-    85% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-20px) scale(0.9);
-    }
-}
-/* 言語切り替えボタンのスタイル */
-.lang-btn {
-    text-decoration: none;
-    color: #fff !important;
-    background: rgba(255, 100, 150, 0.6); /* 少し色を変えて目立たせると親切です */
-    padding: 8px 14px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    transition: background 0.3s;
-}
-
-.lang-btn:hover {
-    background: rgba(255, 100, 150, 0.9);
-}
-/* --- 8. スマホ用レスポンシブ調整 --- */
-@media screen and (max-width: 768px) {
-    /* ヘッダーの調整 */
-    .navbar {
-        height: auto;
-        padding: 10px;
-        flex-direction: column; /* 縦に並べる */
-        gap: 10px;
-    }
-
-    .logo {
-        font-size: 16px;
-    }
-
-    .sns-links {
-        flex-wrap: wrap; /* ボタンが入り切らない時に折り返す */
-        justify-content: center;
-    }
-
-    .sns-btn, .lang-btn {
-        padding: 6px 10px;
-        font-size: 10px;
-    }
-
-    /* メインタイトルのサイズ調整 */
-    .main-title {
-        font-size: 1.5rem;
-    }
-
-    /* ギャラリーを4列から2列に変更 */
-    .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-        grid-auto-rows: 120px;
-        gap: 8px;
-    }
-
-    /* 2列にした際のスパン（広がり）を調整 */
-    .i1, .i6 {
-        grid-column: span 2;
-    }
+    /* ヘッダーと同じような半透明とぼかし */
+    background: rgba(255, 255, 255, 0.15) !important; 
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
     
-    /* 自己紹介カードの幅 */
-    .glass-card {
-        width: 85%;
-        padding: 20px;
-        font-size: 14px;
-    }
-
-    /* 粒子を少し減らす（スマホの負荷軽減） */
-    .particle {
-        display: none; /* 必要に応じて非表示にするか、数を減らすスクリプト調整 */
-    }
-}
-/* --- さっきのコードの最後に追加 --- */
-/* i9（新しく追加した文字ボックス）のデザイン */
-.i9 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;       /* 写真のフチと同じ白背景 */
-    color: #333;           /* 文字の色 */
-    font-size: 18px;       /* 文字の大きさ（お好みで変えてね） */
-    font-weight: bold;
-    border-radius: 12px;
-    border: 4px solid #fff;
-    
-    /* 他の写真と同じ動きをさせる設定 */
-    opacity: 0;
-    --dist: 1;
-    transition: transform 0.1s linear, opacity 0.1s linear;
-    
-    /* 飛んでくる方向（左下から斜めにくる設定にしてみたよ） */
-    transform: translate(calc(-100vw * var(--dist)), calc(100vh * var(--dist))) rotate(calc(45deg * var(--dist)));
-}
-/* 文字ボックス共通のデザイン（g-text） */
-.g-text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;       /* 写真のフチと同じ白背景 */
-    color: #333;           /* 文字の色 */
-    font-size: 18px;       /* 文字の大きさ */
-    font-weight: bold;
-    border-radius: 12px;
-    border: 4px solid #fff;
-    
-    /* 他のアイテムと動きを合わせるための基本設定 */
-    opacity: 0;
-    --dist: 1;
-    transition: transform 0.1s linear, opacity 0.1s linear;
-}
-
-/* 個別の飛ばし方（i9番目のアイテムとして設定） */
-.i9 {
-/* --- gallery文字（g-text）の最終設定 --- */
-.g-text {
-    /* 1. 見た目を「文字だけ」に強制リセット */
-    background: transparent !important;
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    outline: none !important;
-
-    /* 2. 文字のデザイン */
-    color: #fff !important; 
-    font-size: 28px !important;
-    font-weight: 900 !important;
-    text-align: center;
-    
-    /* 3. 配置（写真の枠と同じサイズに広げる） */
+    /* 中の文字を画面の真ん中に持ってくる設定 */
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 100% !important;
-    height: 100% !important;
-    min-height: 150px; /* 他の写真と高さを合わせる */
-
-    /* 4. スマホでヌルヌル動かすための設定 */
-    will-change: transform, opacity;
-    /* transitionの時間を少し長くするとガクガクが消えるよ */
-    transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.2s linear;
-    
-    /* 他のものより手前に表示 */
-    z-index: 99;
+    padding: 0 !important; 
+    transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* ついでに写真（g-item）もガクガク対策しておく */
-.g-item {
-    will-change: transform, opacity;
-    transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.2s linear;
-}
-/* --- スマホ専用：展開位置をさらに下げる設定 --- */
-@media screen and (max-width: 768px) {
-    /* 1. 写真（g-item）の開始位置をさらに遠く（下）へ */
-    .g-item {
-        /* 下から突き上げる距離を大きくする (150vh = 画面1.5枚分下から) */
-        transform: translate3d(calc(-120vw * var(--dist)), calc(150vh * var(--dist)), 0) rotate(calc(45deg * var(--dist))) !important;
-    }
-
-    /* 2. gallery文字（g-text）の開始位置と回転をスマホ用に調整 */
-    .g-text {
-        /* yの値を 150vh とか 200vh にすると、もっと下から飛んでくるよ */
-        /* JS側で transform を直接書いてる場合は、ここも !important で上書きしちゃう */
-        transform: translate3d(calc(-150vw * var(--dist)), calc(200vh * var(--dist)), 0) rotate(calc(1080deg * var(--dist))) !important;
-        
-        font-size: 24px !important; /* スマホで見やすいサイズに微調整 */
-    }
-}
-/* --- 全体共通：ヌルヌル動かす設定 --- */
-.g-item, .g-text {
-    will-change: transform, opacity;
-    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s linear;
+/* 2. メニュー内のリストを縦に並べて中央寄せにする */
+.menu-content {
+    width: 100%;
 }
 
-/* --- gallery文字（g-text）専用：箱を消して超回転 --- */
-.g-text {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
+.menu-content ul {
+    padding: 0;
+    margin: 0;
+}
+
+.menu-content ul li {
+    margin: 30px 0 !important; /* 項目ごとの上下の間隔 */
+}
+
+.menu-content ul li a {
+    font-size: 28px !important;  /* 文字を大きく */
     color: #fff !important;
-    font-size: 32px !important;
-    font-weight: 900 !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    z-index: 99;
-
-    /* 【PC版】左下(-100vw, 100vh)から3回転(1080deg)してくる */
-    transform: translate3d(calc(-100vw * var(--dist)), calc(100vh * var(--dist)), 0) 
-               rotate(calc(1080deg * var(--dist)));
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3); /* 文字を見やすく */
+    display: inline-block;
 }
 
-/* --- スマホ専用設定（画面幅768px以下） --- */
-/* --- スマホ専用設定（最大展開バージョン） --- */
-@media screen and (max-width: 768px) {
-    /* 文字：さらに遠く（300vh = 画面3枚分下）から飛ばす */
-    .g-text {
-        transform: translate3d(
-            calc(-200vw * var(--dist)), /* 横ももっと遠くから */
-            calc(400vh * var(--dist)), /* 縦は思い切って400vh（画面4枚分下）！ */
-            0
-        ) 
-        rotate(calc(1440deg * var(--dist))) !important; /* 回転も4回転に増量 */
-        
-        font-size: 24px !important;
-    }
+/* 3. 背景の暗幕（さらに雰囲気を出すために） */
+.menu-backdrop {
+    background: rgba(0, 0, 0, 0.2) !important; /* ほんの少し暗く */
+}
 
-    /* 写真：本来の方向を保ちつつ、開始位置をググッと下げる */
-    .g-item {
-        /* 150vhから300vhへ。これでスクロールし始めに一気に集まる感じが出るよ */
-        margin-top: calc(300vh * var(--dist)) !important;
+/* --- スマホ用の微調整 --- */
+@media screen and (max-width: 768px) {
+    .menu-content ul li a {
+        font-size: 24px !important; /* スマホでは少し小さめに */
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+  /* --- メニュー全体を画面の真ん中に配置 --- */
+.menu-overlay {
+    /* 既存の設定に加えて、以下を確実に適用 */
+    display: flex !important;
+    align-items: center !important;     /* 上下の中央 */
+    justify-content: center !important;  /* 左右の中央 */
+    text-align: center !important;       /* 文字自体を中央寄せ */
+}
+
+/* リスト自体の余白をリセットして真ん中に固定 */
+.menu-content {
+    width: 100%;
+}
+
+.menu-content ul {
+    list-style: none;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: inline-block; /* 中身の幅に合わせる */
+}
+
+/* 各メニュー項目の設定 */
+.menu-content ul li {
+    margin: 25px 0 !important; /* 上下の間隔 */
+    opacity: 0;
+    transform: translateX(-20px); /* 左からフェードインするための初期位置 */
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    width: 100%; /* 横幅いっぱいに広げて中央寄せを安定させる */
+}
+
+/* メニュー文字のデザイン（中央で大きく） */
+.menu-content ul li a {
+    display: block; /* クリックエリアを横に広げる */
+    font-size: 32px !important; /* PCでは少し大きめに */
+    color: #fff !important;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s, transform 0.3s;
+}
+
+/* マウスを乗せた時のちょっとした演出（おまけ） */
+.menu-content ul li a:hover {
+    color: #ffb7c5 !important; /* いくらっぽいピンク色に */
+    transform: scale(1.1);      /* 少し大きく */
+}
+
+/* --- スマホ用の微調整 --- */
+@media screen and (max-width: 768px) {
+    .menu-content ul li a {
+        font-size: 26px !important; /* スマホで見やすいサイズ */
+    }
+    .menu-content ul li {
+        margin: 20px 0 !important;
+    }
+}
+/* --- 文字が表示されない問題を解決する設定 --- */
+
+/* 1. 通常時：メニュー内のリスト（li）を透明にしておく */
+.menu-overlay .menu-content ul li {
+    opacity: 0 !important;
+    transform: translateX(-30px) !important; /* 少し左にずらしておく */
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out !important;
+}
+
+/* 2. 【重要】メニューが開いた時（activeクラスがついた時）に見えるようにする */
+.menu-overlay.active .menu-content ul li {
+    opacity: 1 !important;
+    transform: translateX(0) !important; /* 定位置に戻る */
+}
+
+/* 3. 1つずつ時間差で表示させる設定（ここが消えていると出てきません） */
+.menu-overlay.active .menu-content ul li:nth-child(1) { transition-delay: 0.2s !important; }
+.menu-overlay.active .menu-content ul li:nth-child(2) { transition-delay: 0.4s !important; }
+.menu-overlay.active .menu-content ul li:nth-child(3) { transition-delay: 0.6s !important; }
+.menu-overlay.active .menu-content ul li:nth-child(4) { transition-delay: 0.8s !important; }
+.menu-overlay.active .menu-content ul li:nth-child(5) { transition-delay: 0.10s !important; }
+.menu-overlay.active .menu-content ul li:nth-child(6) { transition-delay: 0.12s !important; }
+
+/* 4. 文字のデザイン（念のため色を白に固定） */
+.menu-content ul li a {
+    color: #ffffff !important;
+    display: block !important;
+    text-align: center !important;
+    text-decoration: none !important;
 }
