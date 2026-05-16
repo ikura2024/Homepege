@@ -230,6 +230,9 @@ body.no-scroll {
 #top {
     background-image: url('ikurahead.jpeg');
     background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .intro-container {
