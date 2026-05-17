@@ -233,6 +233,10 @@ body.no-scroll {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    /* iPad対策 */
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
 }
 
 .intro-container {
@@ -350,6 +354,12 @@ body.no-scroll {
     transform: translate3d(calc(-100vw * var(--dist)), calc(100vh * var(--dist)), 0) rotate(calc(1080deg * var(--dist)));
 }
 
+/* ギャラリー初期状態（スクロール前で表示） */
+.gallery-grid {
+    opacity: 1;
+    transform: none;
+}
+
 /* ========================================
    パーティクル（キラキラ粒子）
    ======================================== */
@@ -422,6 +432,21 @@ body.no-scroll {
 .reveal.active {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* ========================================
+   iPad対応
+   ======================================== */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    #top {
+        background-size: cover;
+        background-position: center center;
+    }
+    
+    #about {
+        background-size: cover;
+        background-position: center center;
+    }
 }
 
 /* ========================================
