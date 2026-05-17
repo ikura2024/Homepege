@@ -230,13 +230,13 @@ body.no-scroll {
 #top {
     background-image: url('ikurahead.jpeg');
     background-attachment: fixed;
-    background-size: cover;
+    background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     /* iPad対策 */
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
 }
 
 .intro-container {
