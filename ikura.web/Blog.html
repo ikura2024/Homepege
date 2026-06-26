@@ -1,175 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ブログ - LOVOTいくらのホームページ</title>
     <link rel="stylesheet" href="ikura.css">
-    <style>
-        body {
-            background: linear-gradient(135deg, #fef9f0 0%, #fdf2e8 50%, #fef6f0 100%) !important;
-        }
-
-        /* Blog-only navbar override */
-        .navbar {
-            background: rgba(254, 249, 240, 0.95) !important;
-            backdrop-filter: blur(15px) !important;
-            -webkit-backdrop-filter: blur(15px) !important;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-        }
-
-        .navbar .logo { color: #333 !important; }
-        .navbar .sns-btn,
-        .navbar .lang-btn { color: #555 !important; border-color: rgba(0,0,0,0.1) !important; background: rgba(255,255,255,0.6) !important; }
-        .navbar .sns-btn:hover { color: #333 !important; }
-        .navbar .user-icon { border-color: #ccc !important; }
-
-        /* Blog-only menu overlay override */
-        .menu-overlay { background: rgba(254, 249, 240, 0.97) !important; }
-        .menu-backdrop { background: rgba(254, 249, 240, 0.85) !important; }
-
-        .blog-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 120px 20px 60px;
-        }
-
-        .blog-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .blog-header h1 {
-            font-size: 36px;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .blog-header p {
-            color: #888;
-            font-size: 14px;
-        }
-
-        .blog-post {
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
-        }
-
-        .blog-post.loaded {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .blog-post:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(255, 100, 150, 0.2);
-        }
-
-        .blog-post h2 a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .blog-post h2 a:hover {
-            color: var(--color-pink-hover);
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-bottom: 24px;
-            color: var(--color-primary);
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .back-link:hover {
-            color: var(--color-pink-hover);
-        }
-
-        .blog-post-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .blog-date {
-            color: #999;
-            font-size: 13px;
-        }
-
-        .blog-tag {
-            background: var(--color-primary);
-            color: #fff;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .blog-post h2 {
-            color: #333;
-            font-size: 22px;
-            margin-bottom: 12px;
-            line-height: 1.4;
-        }
-
-        .blog-post p {
-            color: #555;
-            line-height: 1.8;
-            font-size: 15px;
-        }
-
-        .blog-post-image {
-            width: 100%;
-            border-radius: 12px;
-            margin-top: 16px;
-            object-fit: cover;
-            max-height: 400px;
-        }
-
-        .read-more {
-            display: inline-block;
-            margin-top: 16px;
-            color: var(--color-primary);
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        .read-more:hover {
-            color: var(--color-pink-hover);
-        }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .blog-container {
-                padding: 100px 16px 40px;
-            }
-
-            .blog-header h1 {
-                font-size: 28px;
-            }
-
-            .blog-post h2 {
-                font-size: 18px;
-            }
-
-            .blog-post p {
-                font-size: 14px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="blog-style.css">
 </head>
 <body>
     <div id="particles-container"></div>
@@ -214,29 +50,6 @@
 
     <script src="ikura.js"></script>
     <script>
-        // Force blog-specific styles (overrides ikura.css)
-        document.body.style.background = 'linear-gradient(135deg, #fef9f0 0%, #fdf2e8 50%, #fef6f0 100%)';
-
-        const navbar = document.querySelector('.navbar');
-        if (navbar) {
-            navbar.style.cssText = 'background: rgba(254, 249, 240, 0.97) !important; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-bottom: 1px solid rgba(0,0,0,0.06);';
-            navbar.querySelector('.logo').style.color = '#333';
-            document.querySelectorAll('.sns-btn, .lang-btn').forEach(el => {
-                el.style.color = '#555 !important';
-                el.style.borderColor = 'rgba(0,0,0,0.1)';
-                el.style.background = 'rgba(255,255,255,0.6)';
-            });
-        }
-
-        const menuOverlay = document.querySelector('.menu-overlay');
-        if (menuOverlay) {
-            menuOverlay.style.background = 'rgba(254, 249, 240, 0.97)';
-        }
-        const menuBackdrop = document.getElementById('menu-backdrop');
-        if (menuBackdrop) {
-            menuBackdrop.style.background = 'rgba(254, 249, 240, 0.85)';
-        }
-
         let allPosts = [];
 
         window.addEventListener('DOMContentLoaded', async () => {
@@ -259,7 +72,7 @@
                 }
             } catch (error) {
                 console.error('Error loading blog:', error);
-                container.innerHTML = '<p style="color:#fff;">ブログの読み込みに失敗しました。</p>';
+                container.innerHTML = '<p style="color:#555;">ブログの読み込みに失敗しました。</p>';
             }
         });
 
@@ -301,7 +114,7 @@
 
             document.querySelector('.blog-header h1').textContent = 'いくらのブログ';
             document.querySelector('.blog-header p').innerHTML = `
-                <a href="Blog.html" style="color:var(--color-primary);text-decoration:none;font-weight:bold;">← 一覧に戻る</a>
+                <a href="Blog.html" style="color:#ff6496;text-decoration:none;font-weight:bold;">← 一覧に戻る</a>
             `;
 
             const container = document.getElementById('blog-posts');
