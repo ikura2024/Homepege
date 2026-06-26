@@ -7,15 +7,7 @@
     <link rel="stylesheet" href="ikura.css">
     <style>
         body {
-            background: linear-gradient(-45deg, #0a0a0a, #1a0a1e, #0d0a1a, #0a0a2e);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0%   { background-position: 0% 50%; }
-            50%  { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            background: #ffffff;
         }
 
         .blog-container {
@@ -31,22 +23,21 @@
 
         .blog-header h1 {
             font-size: 36px;
-            color: #fff;
+            color: #333;
             margin-bottom: 10px;
         }
 
         .blog-header p {
-            color: rgba(255, 255, 255, 0.7);
+            color: #888;
             font-size: 14px;
         }
 
         .blog-post {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: #fff;
             border-radius: 16px;
             padding: 24px;
             margin-bottom: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
@@ -95,7 +86,7 @@
         }
 
         .blog-date {
-            color: rgba(255, 255, 255, 0.6);
+            color: #999;
             font-size: 13px;
         }
 
@@ -109,14 +100,14 @@
         }
 
         .blog-post h2 {
-            color: #fff;
+            color: #333;
             font-size: 22px;
             margin-bottom: 12px;
             line-height: 1.4;
         }
 
         .blog-post p {
-            color: rgba(255, 255, 255, 0.8);
+            color: #555;
             line-height: 1.8;
             font-size: 15px;
         }
