@@ -10,11 +10,19 @@
             background: linear-gradient(135deg, #fef9f0 0%, #fdf2e8 50%, #fef6f0 100%);
         }
 
+        /* Blog-only navbar override */
         .navbar {
-            background: rgba(254, 249, 240, 0.9) !important;
-            backdrop-filter: blur(10px) !important;
-            -webkit-backdrop-filter: blur(10px) !important;
+            background: rgba(254, 249, 240, 0.95) !important;
+            backdrop-filter: blur(15px) !important;
+            -webkit-backdrop-filter: blur(15px) !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
         }
+
+        .navbar .logo { color: #333 !important; }
+        .navbar .sns-btn,
+        .navbar .lang-btn { color: #555 !important; border-color: rgba(0,0,0,0.1) !important; background: rgba(255,255,255,0.6) !important; }
+        .navbar .sns-btn:hover { color: #333 !important; }
+        .navbar .user-icon { border-color: #ccc !important; }
 
         .blog-container {
             max-width: 800px;
