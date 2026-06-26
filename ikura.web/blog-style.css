@@ -2,8 +2,9 @@
    Blog Page - CSS (overrides ikura.css)
    ======================================== */
 
-body {
-    background: linear-gradient(135deg, #fef9f0 0%, #fdf2e8 50%, #fef6f0 100%) !important;
+/* Override CSS variable for blog page background */
+.blog-page {
+    --color-bg: #fef9f0;
 }
 
 /* Navbar override */
