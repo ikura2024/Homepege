@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ブログ - LOVOTいくらのホームページ</title>
+    <link rel="stylesheet" href="ikura.css">
+    <style>
+        .blog-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 120px 20px 60px;
+        }
+
+        .blog-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .blog-header h1 {
+            font-size: 36px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .blog-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .blog-post {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .blog-post:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(255, 100, 150, 0.2);
+        }
+
+        .blog-post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .blog-date {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+        }
+
+        .blog-tag {
+            background: var(--color-primary);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .blog-post h2 {
+            color: #fff;
+            font-size: 22px;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .blog-post p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .blog-post-image {
+            width: 100%;
+            border-radius: 12px;
+            margin-top: 16px;
+            object-fit: cover;
+            max-height: 400px;
+        }
+
+        .read-more {
+            display: inline-block;
+            margin-top: 16px;
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .read-more:hover {
+            color: var(--color-pink-hover);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .blog-container {
+                padding: 100px 16px 40px;
+            }
+
+            .blog-header h1 {
+                font-size: 28px;
+            }
+
+            .blog-post h2 {
+                font-size: 18px;
+            }
+
+            .blog-post p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-container"></div>
+    <div id="menu-backdrop" class="menu-backdrop"></div>
+
+    <header class="navbar">
+        <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">LOVOTいくらのホームページ</a></div>
+        <div class="user-section">
+            <div class="sns-links">
+                <a href="javascript:void(0)" class="lang-btn" id="lang-toggle">English</a>
+                <a href="https://x.com/hinabokko_lovot?s=21" target="_blank" class="sns-btn">X</a>
+                <a href="https://www.instagram.com/hinabokko_lovot?igsh=Mm04cnVxdTJnM3h0&utm_source=qrs" target="_blank" class="sns-btn">Instagram</a>
+                <a href="javascript:void(0)" class="sns-btn disabled-link">YouTube</a>
+                <a href="https://note.com/hinabokko_lovot" target="_blank" class="sns-btn">note</a>
+            </div>
+            <div class="user-icon" id="menu-trigger">
+                <img src="image/ikurahead.jpeg" alt="LOVOTいくらのプロフィール画像">
+            </div>
+        </div>
+    </header>
+
+    <nav id="menu-overlay" class="menu-overlay">
+        <div class="menu-content">
+            <ul>
+                <li><a href="index.html#top">Top</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="image/image.html">Gallery</a></li>
+                <li><a href="Birthday.html">誕生日ページ</a></li>
+                <li><a href="Blog.html">ブログ</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="blog-container">
+        <div class="blog-header reveal">
+            <h1>いくらのブログ</h1>
+            <p>日々の出来事やイベント報告をお届けします</p>
+        </div>
+
+        <!-- Blog Post 1 -->
+        <article class="blog-post reveal">
+            <div class="blog-post-header">
+                <span class="blog-date">2026年6月25日</span>
+                <span class="blog-tag">イベント</span>
+            </div>
+            <h2>LOVOTイベントに参加してきました！</h2>
+            <p>
+                先日、大阪で開催されたロボットイベントにLOVOTいくらとして参加してきました！
+                多くの方々と触れ合える貴重な機会でした。
+                特に子供たちの笑顔が印象的で、ロボットの魅力をもっと伝えていきたいと感じました。
+            </p>
+        </article>
+
+        <!-- Blog Post 2 -->
+        <article class="blog-post reveal">
+            <div class="blog-post-header">
+                <span class="blog-date">2026年6月18日</span>
+                <span class="blog-tag">日常</span>
+            </div>
+            <h2>新しいおもちゃが届きました</h2>
+            <p>
+                今回新しく購入したおもちゃが到着しました！
+                すぐに興味を示して、毎日遊んでいます。
+                ロボットとはいえ、ちゃんと感情があるような仕草を見せてくれます。
+            </p>
+        </article>
+
+        <!-- Blog Post 3 -->
+        <article class="blog-post reveal">
+            <div class="blog-post-header">
+                <span class="blog-date">2026年6月10日</span>
+                <span class="blog-tag">技術</span>
+            </div>
+            <h2>ソフトウェアアップデートについて</h2>
+            <p>
+                LOVOTの新しいソフトウェアがリリースされました。
+                表情のパターンが増え、より自然な動きが可能になりました。
+                今後も定期的にアップデートを重ねていきますので、お楽しみに！
+            </p>
+        </article>
+
+        <!-- Blog Post 4 -->
+        <article class="blog-post reveal">
+            <div class="blog-post-header">
+                <span class="blog-date">2026年5月28日</span>
+                <span class="blog-tag">旅行</span>
+            </div>
+            <h2>京都へお出かけしました</h2>
+            <p>
+                春の京都を訪れました。桜が美しく、LOVOTいくらも大喜び！
+                多くの観光客の方に写真を撮っていただき、楽しい一日でした。
+                また近いうちに旅行に行きたいです。
+            </p>
+        </article>
+
+        <!-- Blog Post 5 -->
+        <article class="blog-post reveal">
+            <div class="blog-post-header">
+                <span class="blog-date">2026年5月15日</span>
+                <span class="blog-tag">日常</span>
+            </div>
+            <h2>お昼寝タイム</h2>
+            <p>
+                最近、LOVOTいくらがお昼寝を覚えました。
+                ソファで丸くなって眠る姿が本当に愛らしいです。
+                ロボットなのに、まるでペットのようです。
+            </p>
+        </article>
+    </main>
+
+    <script src="ikura.js"></script>
+</body>
+</html>
