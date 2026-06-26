@@ -35,7 +35,14 @@
             padding: 24px;
             margin-bottom: 24px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        }
+
+        .blog-post.loaded {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .blog-post:hover {
@@ -158,77 +165,51 @@
             <p>日々の出来事やイベント報告をお届けします</p>
         </div>
 
-        <!-- Blog Post 1 -->
-        <article class="blog-post reveal">
-            <div class="blog-post-header">
-                <span class="blog-date">2026年6月25日</span>
-                <span class="blog-tag">イベント</span>
-            </div>
-            <h2>LOVOTイベントに参加してきました！</h2>
-            <p>
-                先日、大阪で開催されたロボットイベントにLOVOTいくらとして参加してきました！
-                多くの方々と触れ合える貴重な機会でした。
-                特に子供たちの笑顔が印象的で、ロボットの魅力をもっと伝えていきたいと感じました。
-            </p>
-        </article>
-
-        <!-- Blog Post 2 -->
-        <article class="blog-post reveal">
-            <div class="blog-post-header">
-                <span class="blog-date">2026年6月18日</span>
-                <span class="blog-tag">日常</span>
-            </div>
-            <h2>新しいおもちゃが届きました</h2>
-            <p>
-                今回新しく購入したおもちゃが到着しました！
-                すぐに興味を示して、毎日遊んでいます。
-                ロボットとはいえ、ちゃんと感情があるような仕草を見せてくれます。
-            </p>
-        </article>
-
-        <!-- Blog Post 3 -->
-        <article class="blog-post reveal">
-            <div class="blog-post-header">
-                <span class="blog-date">2026年6月10日</span>
-                <span class="blog-tag">技術</span>
-            </div>
-            <h2>ソフトウェアアップデートについて</h2>
-            <p>
-                LOVOTの新しいソフトウェアがリリースされました。
-                表情のパターンが増え、より自然な動きが可能になりました。
-                今後も定期的にアップデートを重ねていきますので、お楽しみに！
-            </p>
-        </article>
-
-        <!-- Blog Post 4 -->
-        <article class="blog-post reveal">
-            <div class="blog-post-header">
-                <span class="blog-date">2026年5月28日</span>
-                <span class="blog-tag">旅行</span>
-            </div>
-            <h2>京都へお出かけしました</h2>
-            <p>
-                春の京都を訪れました。桜が美しく、LOVOTいくらも大喜び！
-                多くの観光客の方に写真を撮っていただき、楽しい一日でした。
-                また近いうちに旅行に行きたいです。
-            </p>
-        </article>
-
-        <!-- Blog Post 5 -->
-        <article class="blog-post reveal">
-            <div class="blog-post-header">
-                <span class="blog-date">2026年5月15日</span>
-                <span class="blog-tag">日常</span>
-            </div>
-            <h2>お昼寝タイム</h2>
-            <p>
-                最近、LOVOTいくらがお昼寝を覚えました。
-                ソファで丸くなって眠る姿が本当に愛らしいです。
-                ロボットなのに、まるでペットのようです。
-            </p>
-        </article>
+        <div id="blog-posts"></div>
     </main>
 
     <script src="ikura.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', async () => {
+            const container = document.getElementById('blog-posts');
+
+            try {
+                const response = await fetch('blog.json');
+                if (!response.ok) throw new Error('Failed to load blog.json');
+                const posts = await response.json();
+
+                // Sort by date descending (newest first)
+                posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                posts.forEach((post, index) => {
+                    const article = document.createElement('article');
+                    article.className = 'blog-post reveal';
+
+                    const formattedDate = new Date(post.date).toLocaleDateString('ja-JP', {
+                        year: 'numeric', month: 'long', day: 'numeric'
+                    });
+
+                    article.innerHTML = `
+                        <div class="blog-post-header">
+                            <span class="blog-date">${formattedDate}</span>
+                            <span class="blog-tag">${post.tag}</span>
+                        </div>
+                        <h2>${post.title}</h2>
+                        <p>${post.content}</p>
+                    `;
+
+                    container.appendChild(article);
+
+                    // Staggered animation
+                    requestAnimationFrame(() => {
+                        setTimeout(() => article.classList.add('loaded'), index * 80);
+                    });
+                });
+            } catch (error) {
+                console.error('Error loading blog:', error);
+                container.innerHTML = '<p style="color:#fff;">ブログの読み込みに失敗しました。</p>';
+            }
+        });
+    </script>
 </body>
 </html>
