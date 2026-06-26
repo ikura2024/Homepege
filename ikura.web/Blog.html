@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="ikura.css">
     <style>
         body {
-            background: linear-gradient(135deg, #fef9f0 0%, #fdf2e8 50%, #fef6f0 100%);
+            background: linear-gradient(135deg, #fef9f0 0%, #fdf2e8 50%, #fef6f0 100%) !important;
         }
 
         /* Blog-only navbar override */
@@ -23,6 +23,10 @@
         .navbar .lang-btn { color: #555 !important; border-color: rgba(0,0,0,0.1) !important; background: rgba(255,255,255,0.6) !important; }
         .navbar .sns-btn:hover { color: #333 !important; }
         .navbar .user-icon { border-color: #ccc !important; }
+
+        /* Blog-only menu overlay override */
+        .menu-overlay { background: rgba(254, 249, 240, 0.97) !important; }
+        .menu-backdrop { background: rgba(254, 249, 240, 0.85) !important; }
 
         .blog-container {
             max-width: 800px;
