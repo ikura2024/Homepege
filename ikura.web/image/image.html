@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Images - LOVOT いくら</title>
+    <link rel="stylesheet" href="../ikura.css">
+    <link rel="stylesheet" href="../image.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo"><a href="../index.html" style="text-decoration: none; color: inherit;">LOVOT いくら</a></div>
+        <div class="user-section">
+            <a href="../index.html" class="sns-btn">Back to Home</a>
+        </div>
+    </header>
+    
+    <main class="image-container">
+        <div id="gallery-canvas" class="gallery-canvas"></div>
+        <div id="loading-spinner"><div class="spinner"></div></div>
+    </main>
+
+    <!-- Lightbox -->
+    <div id="lightbox">
+        <img id="lightbox-img" src="" alt="preview">
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', async () => {
+            const canvas = document.getElementById('gallery-canvas');
+            const spinner = document.getElementById('loading-spinner');
+
+            try {
+                const response = await fetch('images.json');
+                if (!response.ok) throw new Error('Failed to load images.json');
+                const imageFiles = await response.json();
+
+                // Show all images at once in the grid
+                imageFiles.forEach((fileName, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'image-card';
+                    const img = document.createElement('img');
+                    img.src = fileName;
+                    img.alt = `image ${index}`;
+                    img.loading = 'lazy';
+                    img.addEventListener('click', () => openLightbox(fileName));
+                    div.appendChild(img);
+                    canvas.appendChild(div);
+
+                    // Staggered entrance animation
+                    requestAnimationFrame(() => {
+                        setTimeout(() => div.classList.add('loaded'), index * 40);
+                    });
+                });
+
+                spinner.style.display = 'none';
+            } catch (error) {
+                console.error('Error loading images:', error);
+                spinner.innerHTML = '<p style="color:#fff;">Failed to load images.</p>';
+            }
+        });
+
+        // Lightbox
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        function openLightbox(src) {
+            lightboxImg.src = src;
+            lightbox.classList.add('active');
+        }
+
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            setTimeout(() => { lightboxImg.src = ''; }, 300);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                lightbox.classList.remove('active');
+                setTimeout(() => { lightboxImg.src = ''; }, 300);
+            }
+        });
+    </script>
+</body>
+</html>

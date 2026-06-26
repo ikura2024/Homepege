@@ -1,0 +1,107 @@
+﻿/* ========================================
+   All Images Page - CSS
+   ======================================== */
+
+body {
+    background-color: #000;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: inherit;
+}
+
+.image-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 120px 20px 40px;
+    box-sizing: border-box;
+}
+
+.gallery-canvas {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 8px;
+    width: 95%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.image-card {
+    opacity: 0;
+    transform: scale(0.3);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.image-card.loaded {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.image-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+}
+
+.image-card img:hover {
+    transform: scale(1.05);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .gallery-canvas {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px;
+    }
+    .image-card img {
+        border-radius: 6px;
+        border-width: 1px;
+    }
+}
+
+/* Loading spinner */
+#loading-spinner {
+    display: flex;
+    justify-content: center;
+    padding: 30px 0 60px;
+}
+#loading-spinner .spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(255, 255, 255, 0.15);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Lightbox overlay */
+#lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    cursor: zoom-out;
+}
+#lightbox.active { display: flex; }
+#lightbox img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.6);
+}
