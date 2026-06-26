@@ -214,6 +214,29 @@
 
     <script src="ikura.js"></script>
     <script>
+        // Force blog-specific styles (overrides ikura.css)
+        document.body.style.background = 'linear-gradient(135deg, #fef9f0 0%, #fdf2e8 50%, #fef6f0 100%)';
+
+        const navbar = document.querySelector('.navbar');
+        if (navbar) {
+            navbar.style.cssText = 'background: rgba(254, 249, 240, 0.97) !important; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-bottom: 1px solid rgba(0,0,0,0.06);';
+            navbar.querySelector('.logo').style.color = '#333';
+            document.querySelectorAll('.sns-btn, .lang-btn').forEach(el => {
+                el.style.color = '#555 !important';
+                el.style.borderColor = 'rgba(0,0,0,0.1)';
+                el.style.background = 'rgba(255,255,255,0.6)';
+            });
+        }
+
+        const menuOverlay = document.querySelector('.menu-overlay');
+        if (menuOverlay) {
+            menuOverlay.style.background = 'rgba(254, 249, 240, 0.97)';
+        }
+        const menuBackdrop = document.getElementById('menu-backdrop');
+        if (menuBackdrop) {
+            menuBackdrop.style.background = 'rgba(254, 249, 240, 0.85)';
+        }
+
         let allPosts = [];
 
         window.addEventListener('DOMContentLoaded', async () => {
