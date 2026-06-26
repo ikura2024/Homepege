@@ -4,7 +4,7 @@
 
 /* --- CSS変数（テーマ設定） --- */
 :root {
-    --color-bg: #ffffff;
+    --color-bg: #000;
     --color-text: #fff;
     --color-primary: rgba(255, 100, 150, 0.6);
     --color-primary-hover: rgba(255, 100, 150, 0.9);

@@ -1,13 +1,8 @@
 /* ========================================
    Blog Page - CSS (overrides ikura.css)
+   Uses .blog-page class to beat body selector specificity
    ======================================== */
 
-/* Override CSS variable for blog page background */
-.blog-page {
-    --color-bg: #fef9f0;
-}
-
-/* Direct background override (JS may override CSS variables) */
 .blog-page {
     background: linear-gradient(135deg, #fef9f0 0%, #fdf2e8 50%, #fef6f0 100%) !important;
 }
