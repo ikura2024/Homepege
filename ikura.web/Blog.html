@@ -54,8 +54,8 @@
 
     <script src="ikura.js"></script>
     <script>
-        // bodyの背景色を透明にして、ラッパー要素のグラデーションを表示
-        document.body.style.background = 'transparent';
+        // ikura.jsでbody背景が#000に上書きされるのを防ぐため、グラデーションを再設定
+        document.body.style.background = 'linear-gradient(135deg, #fef9f0 0%, #fdf2e8 50%, #fef6f0 100%)';
 
         let allPosts = [];
 
