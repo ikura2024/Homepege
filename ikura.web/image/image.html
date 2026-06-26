@@ -43,7 +43,9 @@
                     img.src = fileName;
                     img.alt = `image ${index}`;
                     img.loading = 'lazy';
+                    img.draggable = false;
                     img.addEventListener('click', () => openLightbox(fileName));
+                    img.addEventListener('dragstart', (e) => e.preventDefault());
                     div.appendChild(img);
                     canvas.appendChild(div);
 
@@ -84,10 +86,6 @@
         // Prevent image saving (right-click / drag)
         document.addEventListener('contextmenu', (e) => {
             if (e.target.tagName === 'IMG') e.preventDefault();
-        });
-        document.querySelectorAll('.image-card img').forEach(img => {
-            img.draggable = false;
-            img.addEventListener('dragstart', (e) => e.preventDefault());
         });
     </script>
 </body>
