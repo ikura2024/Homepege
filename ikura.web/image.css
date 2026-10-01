@@ -98,7 +98,13 @@ body {
     cursor: zoom-out;
 }
 #lightbox.active { display: flex; }
-#lightbox img {
+#lightbox .image-watermark-wrapper {
+    width: auto;
+    height: auto;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+#lightbox .image-watermark-wrapper > img {
     max-width: 90vw;
     max-height: 90vh;
     object-fit: contain;
