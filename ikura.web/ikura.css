@@ -45,15 +45,22 @@ body.no-scroll {
 /* ========================================
    画像ウォーターマーク
    ======================================== */
+
 .image-watermark-wrapper {
     position: relative;
     display: block;
     width: 100%;
+    height: auto;
+}
+
+.g-item > .image-watermark-wrapper,
+.user-icon > .image-watermark-wrapper {
     height: 100%;
 }
 
-.image-watermark-wrapper > img {
+ .image-watermark-wrapper > img {
     display: block;
+    max-width: 100%;
 }
 
 .image-watermark {
@@ -321,6 +328,12 @@ body.no-scroll {
 /* CSS背景画像にも自動でウォーターマークを表示 */
 .background-image-watermark-host {
     position: relative;
+}
+
+.background-image-watermark-fixed {
+    position: fixed !important;
+    right: 10px;
+    bottom: 10px;
 }
 
 .background-image-watermark {
