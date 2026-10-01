@@ -318,14 +318,16 @@ body.no-scroll {
 }
 
 
-/* 背景画像にもウォーターマークを強制表示 */
-#top::after,
-#about::after {
-    content: '@hinabokko_lovot';
+/* CSS背景画像にも自動でウォーターマークを表示 */
+.background-image-watermark-host {
+    position: relative;
+}
+
+.background-image-watermark {
     position: absolute;
     right: 10px;
     bottom: 10px;
-    z-index: 5;
+    z-index: 20;
     color: #fff;
     font-size: 12px;
     line-height: 1;
