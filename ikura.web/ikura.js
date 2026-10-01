@@ -463,6 +463,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 watermark.setAttribute('aria-hidden', 'true');
 
                 element.classList.add('background-image-watermark-host');
+                if (getComputedStyle(element).backgroundAttachment.includes('fixed')) {
+                    watermark.classList.add('background-image-watermark-fixed');
+                }
                 element.appendChild(watermark);
             });
         },
