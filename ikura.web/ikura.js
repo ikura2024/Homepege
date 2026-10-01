@@ -59,9 +59,10 @@ const DEFAULT_LANG_DATA = {
 // 言語データ読み込み
 async function loadLanguageData() {
     try {
+        const langBase = window.location.pathname.includes('/image/') ? '../' : './';
         const [jaData, enData] = await Promise.all([
-            fetch('lang-ja.json').then(r => r.json()),
-            fetch('lang-en.json').then(r => r.json())
+            fetch(`${langBase}lang-ja.json`).then(r => r.json()),
+            fetch(`${langBase}lang-en.json`).then(r => r.json())
         ]);
         LANG_DATA = { ja: jaData, en: enData };
         console.log('言語データをJSONから読み込みました');
@@ -461,12 +462,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 watermark.textContent = this.text;
                 watermark.setAttribute('aria-hidden', 'true');
 
-                const position = getComputedStyle(element).position;
-                if (position === 'static') {
-                    element.classList.add('background-image-watermark-host');
-                } else {
-                    element.classList.add('background-image-watermark-host');
-                }
+                element.classList.add('background-image-watermark-host');
                 element.appendChild(watermark);
             });
         },
@@ -480,21 +476,22 @@ document.addEventListener('DOMContentLoaded', async () => {
             this.scan();
 
             this.observer = new MutationObserver((mutations) => {
-                let shouldRescan = false;
                 mutations.forEach(mutation => {
                     if (mutation.type === 'childList') {
                         mutation.addedNodes.forEach(node => {
                             if (node.nodeType === Node.ELEMENT_NODE) {
                                 this.scan(node);
-                                shouldRescan = true;
                             }
                         });
                     } else if (mutation.type === 'attributes' &&
                                (mutation.attributeName === 'class' || mutation.attributeName === 'style')) {
-                        shouldRescan = true;
+                        if (mutation.target === document.body) {
+                            this.scan();
+                        } else {
+                            this.scan(mutation.target);
+                        }
                     }
                 });
-                if (shouldRescan) this.scan();
             });
 
             if (document.body) {
