@@ -445,18 +445,68 @@ document.addEventListener('DOMContentLoaded', async () => {
             root.querySelectorAll?.('img').forEach(img => this.wrapImage(img));
         },
 
-        init() {
-            this.apply();
-            this.observer = new MutationObserver((mutations) => {
-                mutations.forEach(mutation => {
-                    mutation.addedNodes.forEach(node => {
-                        if (node.nodeType === Node.ELEMENT_NODE) this.apply(node);
-                    });
-                });
+        applyBackgroundWatermarks(root = document) {
+            const elements = [];
+            if (root.nodeType === Node.ELEMENT_NODE) elements.push(root);
+            if (root.querySelectorAll) elements.push(...root.querySelectorAll('*'));
+
+            elements.forEach(element => {
+                if (element.classList.contains('background-image-watermark-host')) return;
+
+                const backgroundImage = getComputedStyle(element).backgroundImage;
+                if (!backgroundImage || backgroundImage === 'none') return;
+
+                const watermark = document.createElement('span');
+                watermark.className = 'background-image-watermark';
+                watermark.textContent = this.text;
+                watermark.setAttribute('aria-hidden', 'true');
+
+                const position = getComputedStyle(element).position;
+                if (position === 'static') {
+                    element.classList.add('background-image-watermark-host');
+                } else {
+                    element.classList.add('background-image-watermark-host');
+                }
+                element.appendChild(watermark);
             });
+        },
+
+        scan(root = document) {
+            this.apply(root);
+            this.applyBackgroundWatermarks(root);
+        },
+
+        init() {
+            this.scan();
+
+            this.observer = new MutationObserver((mutations) => {
+                let shouldRescan = false;
+                mutations.forEach(mutation => {
+                    if (mutation.type === 'childList') {
+                        mutation.addedNodes.forEach(node => {
+                            if (node.nodeType === Node.ELEMENT_NODE) {
+                                this.scan(node);
+                                shouldRescan = true;
+                            }
+                        });
+                    } else if (mutation.type === 'attributes' &&
+                               (mutation.attributeName === 'class' || mutation.attributeName === 'style')) {
+                        shouldRescan = true;
+                    }
+                });
+                if (shouldRescan) this.scan();
+            });
+
             if (document.body) {
-                this.observer.observe(document.body, { childList: true, subtree: true });
+                this.observer.observe(document.body, {
+                    childList: true,
+                    subtree: true,
+                    attributes: true,
+                    attributeFilter: ['class', 'style']
+                });
             }
+
+            window.addEventListener('resize', () => this.scan());
         }
     };
 
