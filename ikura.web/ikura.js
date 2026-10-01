@@ -412,4 +412,53 @@ document.addEventListener('DOMContentLoaded', async () => {
     RevealOnScroll.init();
     ToastNotifier.init();
     ParticleSystem.init();
+
+    // ========================================
+    // 6. 画像ウォーターマーク
+    // ========================================
+    const ImageWatermark = {
+        text: '@hinabokko_lovot',
+        observer: null,
+
+        wrapImage(img) {
+            if (!img || img.dataset.watermarkApplied === 'true') return;
+            if (img.closest('.image-watermark-wrapper')) return;
+
+            const wrapper = document.createElement('span');
+            wrapper.className = 'image-watermark-wrapper';
+
+            const watermark = document.createElement('span');
+            watermark.className = 'image-watermark';
+            watermark.textContent = this.text;
+            watermark.setAttribute('aria-hidden', 'true');
+
+            img.parentNode.insertBefore(wrapper, img);
+            wrapper.appendChild(img);
+            wrapper.appendChild(watermark);
+            img.dataset.watermarkApplied = 'true';
+        },
+
+        apply(root = document) {
+            if (root.nodeType === Node.ELEMENT_NODE && root.matches('img')) {
+                this.wrapImage(root);
+            }
+            root.querySelectorAll?.('img').forEach(img => this.wrapImage(img));
+        },
+
+        init() {
+            this.apply();
+            this.observer = new MutationObserver((mutations) => {
+                mutations.forEach(mutation => {
+                    mutation.addedNodes.forEach(node => {
+                        if (node.nodeType === Node.ELEMENT_NODE) this.apply(node);
+                    });
+                });
+            });
+            if (document.body) {
+                this.observer.observe(document.body, { childList: true, subtree: true });
+            }
+        }
+    };
+
+    ImageWatermark.init();
 });
