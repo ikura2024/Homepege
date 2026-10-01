@@ -317,6 +317,25 @@ body.no-scroll {
     border: 1px solid var(--color-glass-border);
 }
 
+
+/* 背景画像にもウォーターマークを強制表示 */
+#top::after,
+#about::after {
+    content: '@hinabokko_lovot';
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 5;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 700;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 4px rgba(0, 0, 0, 0.8);
+}
+
 /* ========================================
    ギャラリー（パズルアニメーション）
    ======================================== */
