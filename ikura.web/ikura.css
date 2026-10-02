@@ -58,7 +58,7 @@ body.no-scroll {
     height: 100%;
 }
 
- .image-watermark-wrapper > img {
+.image-watermark-wrapper > img {
     display: block;
     max-width: 100%;
 }
